@@ -16,8 +16,8 @@
 
 (usage) 用法
 ==============
-1.开启野指针收集：ObjcEvilDoers::SimpleZombieEnable(bool zombieAllObjects, size_t zombieCount);zombieAllObjects是否对所有对象都开启 zombieCount最大存储dealloc对象的数量
-2.关闭野指针收集：ObjcEvilDoers::SimpleZombieDisable
+### 1.开启野指针收集：ObjcEvilDoers::SimpleZombieEnable(bool zombieAllObjects, size_t zombieCount);zombieAllObjects是否对所有对象都开启 zombieCount最大存储dealloc对象的数量
+### 2.关闭野指针收集：ObjcEvilDoers::SimpleZombieDisable
 
 实现方案
 ==============
