@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE726EBF25023F2D00DE9BB6 /* ZZBackTraceTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE726EBE25023F2D00DE9BB6 /* ZZBackTraceTool.mm */; };
 		FEDAB84224F748200072CAE0 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = FEDAB84124F748200072CAE0 /* AppDelegate.mm */; };
 		FEDAB84524F748200072CAE0 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDAB84424F748200072CAE0 /* SceneDelegate.m */; };
 		FEDAB84824F748200072CAE0 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = FEDAB84724F748200072CAE0 /* ViewController.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -37,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FE726EBD25023F2D00DE9BB6 /* ZZBackTraceTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZBackTraceTool.h; sourceTree = "<group>"; };
+		FE726EBE25023F2D00DE9BB6 /* ZZBackTraceTool.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ZZBackTraceTool.mm; sourceTree = "<group>"; };
 		FEDAB83D24F748200072CAE0 /* ZZZombie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZZZombie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEDAB84024F748200072CAE0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FEDAB84124F748200072CAE0 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -146,6 +149,8 @@
 			children = (
 				FEDAB87724F749670072CAE0 /* objc_simpleZombie.h */,
 				FEDAB87624F749670072CAE0 /* objc_simpleZombie.mm */,
+				FE726EBD25023F2D00DE9BB6 /* ZZBackTraceTool.h */,
+				FE726EBE25023F2D00DE9BB6 /* ZZBackTraceTool.mm */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -284,6 +289,7 @@
 				FEDAB84224F748200072CAE0 /* AppDelegate.mm in Sources */,
 				FEDAB85324F748240072CAE0 /* main.m in Sources */,
 				FEDAB84524F748200072CAE0 /* SceneDelegate.m in Sources */,
+				FE726EBF25023F2D00DE9BB6 /* ZZBackTraceTool.mm in Sources */,
 				FEDAB87824F749670072CAE0 /* objc_simpleZombie.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

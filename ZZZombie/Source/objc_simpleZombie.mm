@@ -19,6 +19,7 @@
 #import <chrono>
 #import <thread>
 #import <mutex>
+#import "ZZBackTraceTool.h"
 
 __attribute__((objc_root_class))
 @interface SYSimpoleZombie
@@ -76,10 +77,7 @@ namespace  ObjcEvilDoers {
     BOOL g_zombieAllObjects = NO;
 
     // Protects |g_zombieCount|, |g_zombieIndex|, and |g_zombies|.
-    //base::Lock& GetLock() {
-    //  static auto* lock = new base::Lock();
-    //  return *lock;
-    //}
+
 
     // How many zombies to keep before freeing, and the current head of
     // the circular buffer.
@@ -117,8 +115,8 @@ namespace  ObjcEvilDoers {
         // won't hurt anything.
           
         objc_destructInstance(self);
-//        free(object_getClass(self));
-//            If the instance is big enough, make it into a fat zombie and have
+        memset(self, '!', size);
+            // If the instance is big enough, make it into a fat zombie and have
           // it remember the old |isa|.  Otherwise make it a regular zombie.
           // Setting |isa| rather than using |object_setClass()| because that
           // function is implemented with a memory barrier.  The runtime's
@@ -178,8 +176,10 @@ namespace  ObjcEvilDoers {
     // easy to use DCHECK to dump only in debug builds.
     BOOL DumpDeallocTrace(const void* const* array, int size) {
       const char message[] = "Backtrace from -dealloc:\n";
-    //  StackTrace(array, size).Print();
-
+        if (size>0) {
+            void* trace[kBacktraceDepth];  // Backtrace at point of deallocation.
+//            BackTraceTool::_bs_symbolbacktraceOfFrame(array,size);
+        }
       return YES;
     }
 
@@ -196,6 +196,12 @@ namespace  ObjcEvilDoers {
           wasa = static_cast<SYFatZombie*>(object)->wasa;
         }
         const char* wasaName = (wasa ? class_getName(wasa) : "<unknown>");
+          if (found && record.traceDepth) {
+            DumpDeallocTrace(record.trace, record.traceDepth);
+          } else {
+              printf("Unable to generate backtrace from -dealloc.");
+          }
+
 //        NSLog(@"%@ %@",object,aSelector);
     }
     
@@ -264,6 +270,11 @@ namespace  ObjcEvilDoers {
     ObjcEvilDoers::ZombieObjectCrash(self, aSelector, _cmd);
 }
 
+-(void)doesNotRecognizeSelector:(SEL)aSelector
+{
+    ObjcEvilDoers::ZombieObjectCrash(self, aSelector, _cmd);
+
+}
 
 @end
 
@@ -299,9 +310,9 @@ namespace ObjcEvilDoers {
             return NO;
         }
         const RealIMP preDeallocIMP = reinterpret_cast<RealIMP>(method_setImplementation(m, reinterpret_cast<IMP>(ZombieDealloc)));
-        if (preDeallocIMP == g_originalDeallocIMP || preDeallocIMP == reinterpret_cast<RealIMP>(ZombieDealloc)) {
-            return false;
-        }
+//        if (preDeallocIMP == g_originalDeallocIMP || preDeallocIMP == reinterpret_cast<RealIMP>(ZombieDealloc)) {
+//            return false;
+//        }
         // Grab the current set of zombies.  This is thread-safe because
           // only the main thread can change these.
         const size_t oldCount = g_zombieCount;
@@ -325,9 +336,9 @@ namespace ObjcEvilDoers {
                       g_zombies = oldZombies;
                       g_zombieCount = oldCount;
                       g_zombieIndex = oldIndex;
-                SimpleZombieDisable();
-                return false;
-              }
+                      SimpleZombieDisable();
+                      return false;
+                  }
             }
 
             // If the count is changing, allow some of the zombies to continue
@@ -340,7 +351,7 @@ namespace ObjcEvilDoers {
                 for (; g_zombieIndex < sharedCount; ++ g_zombieIndex) {
         //        DCHECK_LT(g_zombieIndex, g_zombieCount);
         //        DCHECK_LT(oldIndex, oldCount);
-                    std::swap(g_zombies[g_zombieIndex], oldZombies[oldIndex]);
+                std::swap(g_zombies[g_zombieIndex], oldZombies[oldIndex]);
                 oldIndex = (oldIndex + 1) % oldCount;
               }
                 g_zombieIndex %= g_zombieCount;
